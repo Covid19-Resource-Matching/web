@@ -1,0 +1,16 @@
+{% extends "covid/base.html" %}
+
+{% block title %}{{ user.get_full_name }}{% endblock %}
+
+{% block content %}
+<section class="section">
+	<div class="container">
+		<h1 class="title">
+			{{ user.get_full_name }}
+		</h1>
+		<p class="subtitle">
+			Profile detail
+		</p>
+	</div>
+</section>
+{% endblock %}
