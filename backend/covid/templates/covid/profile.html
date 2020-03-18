@@ -5,12 +5,28 @@
 {% block content %}
 <section class="section">
 	<div class="container">
-		<h1 class="title">
-			{{ user.get_full_name }}
-		</h1>
-		<p class="subtitle">
-			Profile detail
-		</p>
+		<div class="content">
+			<h1 class="title">
+				{{ user.get_full_name }}
+			</h1>
+			<div class="tile is-ancestor">
+				<div class="tile is-parent">
+					<div class="tile is-child box">
+						Supplier Page
+					</div>
+				</div>
+				<div class="tile is-parent">
+					<div class="tile is-child box">
+						Deliverer Page
+					</div>
+				</div>
+				<div class="tile is-parent">
+					<div class="tile is-child box">
+						Requester Page
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 </section>
 {% endblock %}

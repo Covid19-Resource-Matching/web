@@ -5,12 +5,12 @@ from django.conf import settings
 
 
 class Supplier(models.Model):
-    user = settings.AUTH_USER_MODEL
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
 # This is a temporary model for prototyping purposes
 class Requester(models.Model):
-    user = settings.AUTH_USER_MODEL
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
 
 ## A descriptor defines a particular kind of resource.
@@ -48,8 +48,8 @@ class FulfillmentState(Enum):
 
 
 class Fulfillment(models.Model):
-    supply: models.ForeignKey(Supply, on_delete=models.CASCADE)
-    request: models.ForeignKey(Requester, on_delete=models.CASCADE)
+    supply = models.ForeignKey(Supply, on_delete=models.CASCADE)
+    request = models.ForeignKey(Request, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
 
     created = models.DateTimeField(auto_now_add=True)
