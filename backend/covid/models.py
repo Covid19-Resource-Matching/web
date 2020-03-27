@@ -7,10 +7,16 @@ from django.conf import settings
 class Supplier(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.user.username
+
 
 # This is a temporary model for prototyping purposes
 class Requester(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
 
 
 ## A descriptor defines a particular kind of resource.
@@ -23,13 +29,18 @@ class Descriptor(models.Model):
     # if there are no unfulfilled supplies or requests
     permanent = models.BooleanField()
 
+    def __str__(self):
+        return self.description
+
 
 # The availability of a particular resource from a particular supplier in some quantity
 class Supply(models.Model):
     descriptor = models.ForeignKey(Descriptor, on_delete=models.CASCADE)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.supplier}: {self.quantity}× {self.descriptor}"
 
 
 # A request of some quantity of a particular resource for a particular requester
@@ -37,7 +48,9 @@ class Request(models.Model):
     descriptor = models.ForeignKey(Descriptor, on_delete=models.CASCADE)
     requester = models.ForeignKey(Requester, on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField()
-    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.requester}: {self.quantity}× {self.descriptor}"
 
 
 class FulfillmentState(Enum):

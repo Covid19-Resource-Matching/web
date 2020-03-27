@@ -12,7 +12,14 @@
 			<div class="tile is-ancestor">
 				<div class="tile is-parent">
 					<div class="tile is-child box">
-						Supplier Page
+						{% if supplier is None %}
+						<form action="{% url 'register_supplier' %}" method="POST">
+							{% csrf_token %}
+							<input type="submit" value="Register as Supplier">
+						</form>
+						{% else %}
+						<a href="{% url 'supplier' %}">Supplier Dashboard</a>
+						{% endif %}
 					</div>
 				</div>
 				<div class="tile is-parent">

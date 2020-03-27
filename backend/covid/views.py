@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.http import HttpRequest, HttpResponse
 from django.views.decorators.http import require_POST
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.db.models import Sum
 
-from .models import Supplier
+from .models import Supplier, Descriptor
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -12,7 +13,12 @@ def index(request: HttpRequest) -> HttpResponse:
 
 @login_required
 def profile(request: HttpRequest) -> HttpResponse:
-    return render(request, "covid/profile.html", {})
+    try:
+        supplier = Supplier.objects.get(user=request.user)
+    except Supplier.DoesNotExist:
+        supplier = None
+
+    return render(request, "covid/profile.html", context={"supplier": supplier})
 
 
 # Register the currently authenticated user as a supplier
@@ -24,4 +30,14 @@ def register_supplier(request: HttpRequest) -> HttpResponse:
         )
 
     Supplier.objects.get_or_create(user=request.user)
-    return redirect("supplier")
+    return redirect("profile")
+
+
+def user_is_supplier(user):
+    return Supplier.objects.filter(user=user).exists()
+
+
+@login_required
+@user_passes_test(user_is_supplier, login_url="profile")
+def supplier(request: HttpRequest) -> HttpResponse:
+    return render(request, "covid/supplier.html")
