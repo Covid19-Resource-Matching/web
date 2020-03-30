@@ -4,20 +4,64 @@
 
 {% block content %}
 <section class="section">
-    <div class="container">
-        <div class="content">
-            <h1>Supplier Dashboard</h1>
-            <h2>Your supplies</h2>
-            <p>TEST TEST TEST</p>
-        </div>
-    </div>
+	<div class="container">
+		<div class="content">
+			<h1>Supplier Dashboard</h1>
+			<h2>Your supplies</h2>
+			<table class="table is-striped is-hoverable">
+				<thead>
+					<tr>
+						<th>Item</th>
+						<th>Quantity</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in user_supplies %}
+					<tr>
+						<td>{{ item.description }}</td>
+						<td>{{ item.quantity }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
 </section>
 <section class="section">
-    <div class="container">
-        <div class="content">
-            <h2>Add supplies</h2>
-            <p>TEST TEST TEST</p>
-        </div>
-    </div>
+	<div class="container">
+		<div class="content">
+			<h2>Add supplies</h2>
+			<!-- TODO: Replace this with a React app -->
+			<form action="{% url 'update_supplies' %}" method="POST">
+				{% csrf_token %}
+				{% for item in needed_supplies %}
+				<div class="field is-horizontal">
+					<div class="field-label is-normal">
+						<label class="label">{{ item.description }}</label>
+					</div>
+					<div class="field-body">
+						<div class="field is-narrow">
+							<div class="control">
+								<input class="input" type="number" value="0" name="{{ item.id }}">
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+				<div class="field is-horizontal">
+					<div class="field-label">
+						<!-- Left empty for spacing -->
+					</div>
+					<div class="field-body">
+						<div class="field">
+							<div class="control">
+								<input type="submit" class="button is-primary" value="Update supplies">
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
 </section>
 {% endblock %}
