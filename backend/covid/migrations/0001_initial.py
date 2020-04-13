@@ -15,56 +15,139 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Descriptor',
+            name="Descriptor",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('description', models.TextField()),
-                ('permanent', models.BooleanField()),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("description", models.TextField()),
+                ("permanent", models.BooleanField()),
             ],
         ),
         migrations.CreateModel(
-            name='Fulfillment',
+            name="Fulfillment",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantity', models.PositiveIntegerField()),
-                ('created', models.DateTimeField(auto_now_add=True)),
-                ('assigned', models.DateTimeField(null=True)),
-                ('collected', models.DateTimeField(null=True)),
-                ('completed', models.DateTimeField(null=True)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("quantity", models.PositiveIntegerField()),
+                ("created", models.DateTimeField(auto_now_add=True)),
+                ("assigned", models.DateTimeField(null=True)),
+                ("collected", models.DateTimeField(null=True)),
+                ("completed", models.DateTimeField(null=True)),
             ],
         ),
         migrations.CreateModel(
-            name='Supplier',
+            name="Supplier",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Supply',
+            name="Supply",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantity', models.PositiveSmallIntegerField()),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('descriptor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='covid.Descriptor')),
-                ('supplier', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='covid.Supplier')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("quantity", models.PositiveSmallIntegerField()),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
+                (
+                    "descriptor",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="covid.Descriptor",
+                    ),
+                ),
+                (
+                    "supplier",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="covid.Supplier"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Requester',
+            name="Requester",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Request',
+            name="Request",
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('quantity', models.PositiveIntegerField()),
-                ('timestamp', models.DateTimeField(auto_now_add=True)),
-                ('descriptor', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='covid.Descriptor')),
-                ('requester', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='covid.Requester')),
+                (
+                    "id",
+                    models.AutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("quantity", models.PositiveIntegerField()),
+                ("timestamp", models.DateTimeField(auto_now_add=True)),
+                (
+                    "descriptor",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="covid.Descriptor",
+                    ),
+                ),
+                (
+                    "requester",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="covid.Requester",
+                    ),
+                ),
             ],
         ),
     ]
