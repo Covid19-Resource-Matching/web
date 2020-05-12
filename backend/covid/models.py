@@ -18,6 +18,19 @@ class Requester(models.Model):
     def __str__(self):
         return self.user.username
 
+# This is a temporary model for prototyping purposes
+class Transporter(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
+
+# This is a temporary model for prototyping purposes
+class FulfillmentAdmin(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
 
 ## A descriptor defines a particular kind of resource.
 class Descriptor(models.Model):
