@@ -37,6 +37,7 @@ class Descriptor(models.Model):
 class Supply(models.Model):
     descriptor = models.ForeignKey(Descriptor, on_delete=models.CASCADE)
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
+    measureWord = models.TextField()
     quantity = models.PositiveSmallIntegerField()
 
     def __str__(self):
@@ -47,6 +48,7 @@ class Supply(models.Model):
 class Request(models.Model):
     descriptor = models.ForeignKey(Descriptor, on_delete=models.CASCADE)
     requester = models.ForeignKey(Requester, on_delete=models.CASCADE)
+    measureWord = models.TextField()
     quantity = models.PositiveIntegerField()
 
     def __str__(self):
@@ -63,6 +65,7 @@ class FulfillmentState(Enum):
 class Fulfillment(models.Model):
     supply = models.ForeignKey(Supply, on_delete=models.CASCADE)
     request = models.ForeignKey(Request, on_delete=models.CASCADE)
+    measureWord = models.TextField()
     quantity = models.PositiveIntegerField()
 
     created = models.DateTimeField(auto_now_add=True)
