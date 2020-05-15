@@ -2,15 +2,15 @@
 
 {% block title %}Profile Page{% endblock title %}
 
-{% block content %} 
-    <h2>Profile Page</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Update</button>
-        <br><br>
-        <a href="{% url 'deleteuser' %}">Delete My Account</a>
-        <br><br>
-        <a href="{% url 'profile' %}">Back</a>
-    </form>
+{% block content %}
+	<h2>Profile Page</h2>
+	<form method="post">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<button type="submit">Update</button>
+		<br><br>
+		<a href="{% url 'deleteuser' %}">Delete My Account</a>
+		<br><br>
+		<a href="{% url 'profile' %}">Back</a>
+	</form>
 {% endblock content %}

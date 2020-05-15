@@ -21,7 +21,6 @@ class SignUpForm(UserCreationForm):
 
 # Profile Form
 class ProfileForm(forms.ModelForm):
-
     class Meta:
         model = User
         fields = [
