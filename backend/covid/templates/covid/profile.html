@@ -12,10 +12,10 @@
 			<div class="tile is-ancestor">
 				<div class="tile is-parent">
 					<div class="tile is-child box">
-						{% if supplier is None %}
-						<form action="{% url 'register_supplier' %}" method="POST">
+						{% if user is None %}
+						<form action="{% url 'register_supply_request' %}" method="POST">
 							{% csrf_token %}
-							<input type="submit" value="Register as Supplier">
+							<input type="submit" value="Register as a Supplier & Deliverer">
 						</form>
 						{% else %}
 						<a href="{% url 'supplier' %}">Supplier Dashboard</a>
@@ -29,7 +29,14 @@
 				</div>
 				<div class="tile is-parent">
 					<div class="tile is-child box">
-						Requester Page
+						{% if user is None %}
+						<form action="{% url 'register_supply_request' %}" method="POST">
+							{% csrf_token %}
+							<input type="submit" value="Register as a Supplier & Deliverer">
+						</form>
+						{% else %}
+						<a href="{% url 'supplier' %}">Requester Dashboard</a>
+						{% endif %}
 					</div>
 				</div>
 			</div>
