@@ -7,7 +7,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Sum, F, Q
 from django.db import transaction
 
-from .models import Supplier, Descriptor, Request, Supply
+from .models import Supplier, Requester, Descriptor, Request, Supply
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -17,6 +17,7 @@ def index(request: HttpRequest) -> HttpResponse:
 @login_required
 def profile(request: HttpRequest) -> HttpResponse:
     try:
+        # since Supplier == Requester, this check should be the same
         supplier = Supplier.objects.get(user=request.user)
     except Supplier.DoesNotExist:
         supplier = None
@@ -24,15 +25,17 @@ def profile(request: HttpRequest) -> HttpResponse:
     return render(request, "covid/profile.html", context={"supplier": supplier})
 
 
-# Register the currently authenticated user as a supplier
+# Register the currently authenticated user as a supplier & requester
 @require_POST
-def register_supplier(request: HttpRequest) -> HttpResponse:
+def register_supply_request(request: HttpRequest) -> HttpResponse:
     if not request.user.is_authenticated:
         return HttpResponse(
-            content="You must be logged in to register as a supplier", status=401,
+            content="You must be logged in to register as a supplier & requester",
+            status=401,
         )
 
     Supplier.objects.get_or_create(user=request.user)
+    Requester.objects.get_or_create(user=request.user)
     return redirect("profile")
 
 
