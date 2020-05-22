@@ -6,7 +6,12 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db.models import Sum, F, Q
 from django.db import transaction
+from django.urls import reverse_lazy
+from django.views import generic
+from django.contrib.auth.models import User
+from django.contrib import messages
 
+from .forms import ProfileForm, SignUpForm, UserDeleteForm
 from .models import Supplier, Descriptor, Request, Supply
 
 
@@ -98,3 +103,33 @@ def update_supplies(request: HttpRequest) -> HttpResponse:
                 supply.save()
 
     return redirect("supplier")
+
+
+@login_required
+def deleteuser(request):
+    if request.method == 'POST':
+        delete_form = UserDeleteForm(request.POST, instance=request.user)
+        user = request.user
+        user.delete()
+        messages.info(request, 'Your account has been deleted.')
+        return redirect('login')
+    else:
+        delete_form = UserDeleteForm(instance=request.user)
+
+    context = {
+        'delete_form': delete_form
+    }
+
+    return render(request, 'registration/userprofile_delete.html', context)
+
+# accounts/views.py
+class SignUpView(generic.CreateView):
+    form_class = SignUpForm
+    success_url = reverse_lazy('login')
+    template_name = 'registration/signup.html'
+
+class ProfileView(generic.UpdateView):
+    model = User
+    form_class = ProfileForm
+    success_url = reverse_lazy('profile')
+    template_name = 'registration/userprofile.html'
