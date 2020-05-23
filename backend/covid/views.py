@@ -21,12 +21,16 @@ def index(request: HttpRequest) -> HttpResponse:
 @login_required
 def profile(request: HttpRequest) -> HttpResponse:
     try:
-        # since Supplier == Requester, this check should be the same
-        supplier = Supplier.objects.get(user=request.user)
+        user = Supplier.objects.get(user=request.user)
     except Supplier.DoesNotExist:
-        supplier = None
+        user = None
+        return render(request, "covid/profile.html", context={"user": user})
+    try:
+        user = Requester.objects.get(user=request.user)
+    except Requester.DoesNotExist:
+        user = None        
 
-    return render(request, "covid/profile.html", context={"supplier": supplier})
+    return render(request, "covid/profile.html", context={"user": user})
 
 
 # Register the currently authenticated user as a supplier & requester
