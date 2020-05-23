@@ -1,6 +1,7 @@
 from enum import Enum
 
 from django.db import models
+from phonenumber_field.modelfields import PhoneNumberField
 from django.conf import settings
 
 
@@ -13,17 +14,31 @@ class Supplier(models.Model):
 
 # This is a temporary model for prototyping purposes
 class Requester(models.Model):
+    # The user field has basic info for this person- name, email address
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+
+    # The *default* delivery address for this person. Used to populate new
+    # fulfillments.
+    # TODO: Consider using https://github.com/furious-luke/django-address.
+    # This requires Google Maps API, which requires a billable Google Cloud
+    # account, so we're punting it for now.
+    address = models.TextField()
+
+    phone_number = PhoneNumberField()
 
     def __str__(self):
         return self.user.username
+
 
 # This is a temporary model for prototyping purposes
 class Transporter(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
+    phone_number = PhoneNumberField()
+
     def __str__(self):
         return self.user.username
+
 
 # This is a temporary model for prototyping purposes
 class FulfillmentAdmin(models.Model):
@@ -31,6 +46,7 @@ class FulfillmentAdmin(models.Model):
 
     def __str__(self):
         return self.user.username
+
 
 ## A descriptor defines a particular kind of resource.
 class Descriptor(models.Model):
@@ -60,7 +76,14 @@ class Supply(models.Model):
 # A request of some quantity of a particular resource for a particular requester
 class Request(models.Model):
     descriptor = models.ForeignKey(Descriptor, on_delete=models.CASCADE)
+    # The person for whom this request should be delivered
     requester = models.ForeignKey(Requester, on_delete=models.CASCADE)
+
+    # The person (if any) who entered this request
+    request_admin = models.ForeignKey(
+        FulfillmentAdmin, on_delete=models.SET_NULL, null=True
+    )
+
     measureWord = models.TextField()
     quantity = models.PositiveIntegerField()
 

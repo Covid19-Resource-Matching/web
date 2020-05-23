@@ -7,9 +7,10 @@ authors = ["Your Name <you@example.com>"]
 [tool.poetry.dependencies]
 python = "^3.6"
 django = "^3.0.5"
-black = "^19.10b0"
+django-phonenumber-field = {extras = ["phonenumbers"], version = "^4.0.0"}
 
 [tool.poetry.dev-dependencies]
+black = "^19.10b0"
 
 [build-system]
 requires = ["poetry>=0.12"]
